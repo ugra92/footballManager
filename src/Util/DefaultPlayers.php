@@ -3,7 +3,6 @@
 namespace App\Util;
 
 use App\Entity\Player;
-use App\Entity\Team;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -14,33 +13,31 @@ class DefaultPlayers
 {
 
     /**
-     * @return Player[]
+     * @return ArrayCollection
      */
-    public static function getDefaultPlayers(){
+    public static function getDefaultPlayers()
+    {
 
-        return new ArrayCollection([
-            new Player(PositionUtil::GOALKEEPER, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::GOALKEEPER, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::DEFENCE, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::DEFENCE, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::DEFENCE, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::DEFENCE, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::DEFENCE, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::DEFENCE, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::MIDFIELD, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::MIDFIELD, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::MIDFIELD, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::MIDFIELD, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::MIDFIELD, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::MIDFIELD, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::MIDFIELD, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::MIDFIELD, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::MIDFIELD, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::MIDFIELD, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::ATTACK, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::ATTACK, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::ATTACK, rand(50, 100), rand(50, 100)),
-            new Player(PositionUtil::ATTACK, rand(50, 100), rand(50, 100)),
-        ]);
+        return new ArrayCollection(array_merge(
+            self::getNPlayersForPosition(PositionUtil::GOALKEEPER, 2),
+            self::getNPlayersForPosition(PositionUtil::DEFENCE, 6),
+            self::getNPlayersForPosition(PositionUtil::MIDFIELD, 10),
+            self::getNPlayersForPosition(PositionUtil::ATTACK, 4)
+        ));
+    }
+
+    /**
+     * @param $n
+     * @param $position
+     * @return array
+     */
+    private static function getNPlayersForPosition($position, $n)
+    {
+        $arr = [];
+        for ($i = 0; $i < $n; $i++) {
+            $arr[] = (new Player($position, rand(50, 100), rand(50, 100)));
+        }
+
+        return $arr;
     }
 }

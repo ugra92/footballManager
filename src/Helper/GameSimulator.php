@@ -3,7 +3,6 @@
 
 namespace App\Helper;
 
-
 use App\Entity\Team;
 
 /**
@@ -14,7 +13,7 @@ class GameSimulator
 {
     /**
      * @param Team $team
-     * @return Team
+     * @return mixed|null
      */
     public static function simulateGame(Team $team)
     {
@@ -30,6 +29,6 @@ class GameSimulator
         $team->removePlayer($player);
         $team->addInjuredPlayer($player);
 
-        return $team;
+        return $player;
     }
 }
