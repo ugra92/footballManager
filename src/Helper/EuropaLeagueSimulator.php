@@ -7,6 +7,7 @@ use App\Entity\Strategies\StrategyAttacking;
 use App\Entity\Strategies\StrategyDefensive;
 use App\Entity\Strategies\StrategyRegular;
 use App\Entity\Team;
+use App\Exception\InjuredPlayersForPositionException;
 use App\Factory\FormationFactory;
 use ReflectionClass;
 
@@ -60,6 +61,9 @@ class EuropaLeagueSimulator
                 self::playGame($strategy, $key);
             } catch (\ReflectionException $e) {
                 $this->logger->logError('Strategy does not exist');
+            } catch (InjuredPlayersForPositionException $e) {
+                $this->logger->logError($e->getMessage());
+                return;
             }
         }
 

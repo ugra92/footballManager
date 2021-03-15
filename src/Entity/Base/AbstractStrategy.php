@@ -4,6 +4,7 @@ namespace App\Entity\Base;
 
 use App\Entity\Player;
 use App\Entity\Team;
+use App\Exception\InjuredPlayersForPositionException;
 use App\Util\PositionUtil;
 use App\Util\PropertyUtil;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -54,6 +55,11 @@ abstract class AbstractStrategy {
     {
         $playersByPosition = $this->team->getPlayersForPosition($position);
 
+        if(!count($playersByPosition)) {
+            throw new InjuredPlayersForPositionException($position);
+        }
+
+
         return array_slice($this->sortByProp($playersByPosition, $prop), 0, $numb);
     }
 
@@ -64,6 +70,11 @@ abstract class AbstractStrategy {
     protected function getGoalkeeper()
     {
         $keepers = $this->team->getPlayersForPosition(PositionUtil::GOALKEEPER);
+
+        if(!count($keepers)) {
+            throw new InjuredPlayersForPositionException(PositionUtil::GOALKEEPER);
+        }
+
         /**
          * Get better keeper
          */
